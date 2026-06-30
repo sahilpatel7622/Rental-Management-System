@@ -36,11 +36,23 @@
         border-radius:16px;
         padding:18px;
     }
+    #bookingLoader{
+        display:none;
+        position:absolute;
+        inset:0;
+        background:rgba(255,255,255,.7);
+        justify-content:center;
+        align-items:center;
+        z-index:999;
+    }
 </style>
 
 <h2 class="fw-bold mb-4">Booking Summary</h2>
 
-<div class="card summary-card p-4">
+<div class="card summary-card p-4 position-relative">
+    <div id="bookingLoader">
+        <div class="spinner-border text-primary"></div>
+    </div>
     <div class="row g-4 align-items-stretch">
         {{-- Room Details --}}
         <div class="col-md-5 border-end">
@@ -69,10 +81,10 @@
             <h4 class="fw-bold mb-3">User Details</h4>
             <hr>
             <div class="row mb-3"> 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <strong>Name:</strong> {{ session('user_name') }}
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <strong>Email:</strong> {{ session('user_email') }}
                 </div>
                 <div class="col-md-4">
@@ -80,7 +92,7 @@
                 </div> 
             </div>
 
-            <form action="{{ route('booking.store', $room->slug) }}" method="POST">
+            <form id="bookingForm" action="{{ route('booking.store', $room->slug) }}" method="POST">
                 @csrf
                 <input type="hidden" id="rent_price" value="{{ $room->rent_price }}">
                 <div class="row">
@@ -183,6 +195,11 @@
     });
 
     checkOutInput.addEventListener('change', calculateAmount);
+
+    document.getElementById('bookingForm').addEventListener('submit', function () {
+        document.getElementById('bookingLoader').style.display = 'flex';
+    });
+
 </script>
 
 @endsection

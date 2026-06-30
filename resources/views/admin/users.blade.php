@@ -142,6 +142,8 @@ $(function () {
 
         ajax: "{{ route('admin.users') }}",
 
+         order: [[0, 'desc']],
+
         columns: [
             {data:'id', name:'id',searchable:false,
             render:function(data){

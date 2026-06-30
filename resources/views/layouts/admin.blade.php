@@ -159,6 +159,8 @@
 </head>
 <body>
 
+@include('layouts.loader')
+
 <div class="sidebar">
 
     <a href="{{ route('admin.dashboard') }}" class="logo text-decoration-none">

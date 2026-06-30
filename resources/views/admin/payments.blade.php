@@ -192,7 +192,7 @@
 
                     <tr>
                         <th>Booking ID</th>
-                        <td>#{{ $payment->booking_id }}</td>
+                        <td style="color: green">#{{ $payment->booking_id }}</td>
                     </tr>
 
                     <tr>

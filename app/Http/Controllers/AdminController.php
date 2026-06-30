@@ -29,7 +29,7 @@ class AdminController extends Controller
     public function users(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::where('role', 'user')->latest();
+            $users = User::where('role', 'user')->orderBy('id', 'desc');
             return DataTables::of($users)
                 ->addIndexColumn()
                 ->addColumn('status', function ($row) {
@@ -49,7 +49,7 @@ class AdminController extends Controller
                 ->rawColumns(['status','action'])
                 ->make(true);
         }
-        return view('admin.users    ');
+        return view('admin.users');
     }
 
     public function deleteUser($id)

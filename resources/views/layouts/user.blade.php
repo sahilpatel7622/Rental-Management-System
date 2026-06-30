@@ -51,6 +51,8 @@
 </head>
 <body>
 
+@include('layouts.loader')
+
 <nav class="navbar navbar-expand-lg navbar-user">
     <div class="container">
 

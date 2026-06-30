@@ -85,7 +85,7 @@ class BookingController extends Controller
                 </div>
             ", function ($message) use ($user) {
                 $message->to($user->email)
-                        ->subject('Booking Confirmation');
+                        ->subject('Booking Confirmati   on');
             });
         }
 
@@ -111,7 +111,5 @@ class BookingController extends Controller
                     ->get();
         return view('admin.bookings', compact('bookings'));
     }
-
-
 
 }
