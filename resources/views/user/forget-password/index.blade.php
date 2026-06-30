@@ -34,11 +34,29 @@
             background:#4338ca;
             color:#fff;
         }
+        .card-box{
+            position:relative;
+        }
+
+        #forgotLoader{
+            display:none;
+            position:absolute;
+            inset:0;
+            background:rgba(255,255,255,.75);
+            border-radius:15px;
+            justify-content:center;
+            align-items:center;
+            z-index:99;
+        }
     </style>
 </head>
 <body>
 
 <div class="card-box">
+
+    <div id="forgotLoader">
+        <div class="spinner-border text-primary"></div>
+    </div>
 
     <h3 class="text-center mb-4">Forgot Password</h3>
 
@@ -54,7 +72,7 @@
         </div>
     @endif
 
-    <form action="{{ route('forget.password.send') }}" method="POST">
+    <form id="forgotForm" action="{{ route('forget.password.send') }}" method="POST">
         @csrf
 
         <div class="mb-3">
@@ -82,6 +100,12 @@
     </div>
 
 </div>
+
+<script>
+document.getElementById('forgotForm').addEventListener('submit', function () {
+    document.getElementById('forgotLoader').style.display = 'flex';
+});
+</script>
 
 </body>
 </html>

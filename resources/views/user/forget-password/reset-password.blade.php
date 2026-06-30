@@ -54,12 +54,29 @@ body{
     background:#6c757d;
     color:#fff;
 }
+.card-box{
+    position:relative;
+}
+
+#forgotLoader{
+    display:none;
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,.75);
+    border-radius:15px;
+    justify-content:center;
+    align-items:center;
+    z-index:99;
+}
 
 </style>
 </head>
 <body>
 
 <div class="card-box">
+    <div id="forgotLoader">
+        <div class="spinner-border text-primary"></div>
+    </div>
     <h2 class="text-center mb-4">Reset Password</h2>
 
     @if(session('success'))
@@ -74,7 +91,7 @@ body{
     </div>
     @endif
 
-    <form action="{{ route('reset.password') }}" method="POST">
+    <form id="forgotForm"    action="{{ route('reset.password') }}" method="POST">
     @csrf
 
         <div class="mb-3">
@@ -145,6 +162,11 @@ body{
             }
         });
     });
+
+    document.getElementById('forgotForm').addEventListener('submit', function () {
+        document.getElementById('forgotLoader').style.display = 'flex';
+    });
+    
 </script>
 
 </body>

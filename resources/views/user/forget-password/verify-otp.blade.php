@@ -62,11 +62,29 @@
         a{
             text-decoration:none;
         }
+        .card-box{
+            position:relative;
+        }
+
+        #forgotLoader{
+            display:none;
+            position:absolute;
+            inset:0;
+            background:rgba(255,255,255,.75);
+            border-radius:15px;
+            justify-content:center;
+            align-items:center;
+            z-index:99;
+        }
     </style>
 </head>
 <body>
 
 <div class="otp-card">
+
+    <div id="forgotLoader">
+        <div class="spinner-border text-primary"></div>
+    </div>
 
     <h2 class="otp-title">Verify OTP</h2>
 
@@ -86,7 +104,7 @@
         </div>
     @endif
 
-    <form action="{{ route('verify.email.otp') }}" method="POST">
+    <form id="forgotForm" action="{{ route('verify.email.otp') }}" method="POST">
         @csrf
 
         <div class="mb-4">
@@ -118,6 +136,12 @@
     </div>
 
 </div>
+
+<script>
+document.getElementById('forgotForm').addEventListener('submit', function () {
+    document.getElementById('forgotLoader').style.display = 'flex';
+});
+</script>
 
 </body>
 </html>
