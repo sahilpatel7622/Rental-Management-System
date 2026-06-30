@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\GmailController;
 
 Route::redirect('/', '/dashboard');
 
@@ -13,7 +14,17 @@ Route::get('/login', [UserController::class, 'login'])->name('login');
 Route::post('/login-store', [UserController::class, 'loginStore'])->name('login.store');
 Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/register-store', [UserController::class, 'registerStore'])->name('register.store');
+Route::get('/otp', [UserController::class, 'otpForm'])->name('otp.form');
+Route::post('/otp/verify', [UserController::class, 'verifyOtp'])->name('otp.verify');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
+// Forget Password  
+Route::get('/forget-password', [GmailController::class, 'forgotPassword'])->name('forget.password');
+Route::post('/forget-password', [GmailController::class, 'sendOtp'])->name('forget.password.send');
+Route::get('/verify-email-otp', [GmailController::class, 'otpForm'])->name('verify.email.otp.form');
+Route::post('/verify-email-otp', [GmailController::class, 'verifyOtp'])->name('verify.email.otp');
+Route::get('/reset-password', [GmailController::class, 'resetPasswordForm'])->name('reset.password.form');
+Route::post('/reset-password', [GmailController::class, 'resetPassword'])->name('reset.password');
 
 // Public Room Routes
 Route::get('/rooms', [UserController::class, 'rooms'])->name('user.rooms');

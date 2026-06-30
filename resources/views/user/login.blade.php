@@ -109,6 +109,12 @@
             </div>
         </div>
 
+        <div class="text-end" style="position: relative; bottom: 8px;">
+            <a href="{{ route('forget.password') }}">
+                Forget Password?
+            </a>
+        </div>
+
         <button class="btn btn-login w-100">
             Login
         </button>

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Payment;
+use Twilio\Rest\Client;
+
 
 class UserController extends Controller
 {
@@ -27,7 +29,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:user,email',
-            'phone' => 'nullable',
+            'phone' => 'required|numeric|digits:10|unique:user,phone',
             'password' => 'required|min:6',
         ]);
 
@@ -38,10 +40,65 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'user',
             'status' => 'active',
+        
+            // 'otp_sent' => true
         ]);
 
-        return redirect()->route('login')->with('success', 'Register successfully');
+        // $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        // $twilio->verify->v2
+        //     ->services(env('TWILIO_VERIFY_SID'))
+        //     ->verifications
+        //     ->create('+91'.$request->phone, 'sms');
+
+        return redirect()->route('login')
+            ->with('success', 'Register Comeplete Successfully!.');
+
     }
+
+    public function otpForm()
+    {
+        return view('user.otp');
+    }
+
+    // public function verifyOtp(Request $request)
+    // {
+    //     $request->validate([
+    //         'otp' => 'required|digits:6',
+    //     ]);
+
+    //     $data = session('register_data');
+    //     if (!$data) {
+    //         return redirect()->route('register')
+    //             ->with('error', 'Session expired. Please register again.');
+    //     }
+
+    //     $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+    //     $result = $twilio->verify->v2
+    //         ->services(env('TWILIO_VERIFY_SID'))
+    //         ->verificationChecks
+    //         ->create([
+    //             'to' => '+91'.$data['phone'],
+    //             'code' => $request->otp,
+    //         ]);
+
+    //     if ($result->status == 'approved') {
+    //         User::create([
+    //             'name' => $data['name'],
+    //             'email' => $data['email'],
+    //             'phone' => $data['phone'],
+    //             'password' => Hash::make($data['password']),
+    //             'role' => 'user',
+    //             'status' => 'active',
+    //         ]);
+
+    //         session()->forget('register_data');
+
+    //         return redirect()->route('login')
+    //             ->with('success', 'Registration completed successfully.');
+    //     }
+
+    //     return back()->with('error', 'Invalid OTP.');
+    // }
 
     public function loginStore(Request $request)
     {
@@ -98,7 +155,6 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $request->session()->flush();
-
         return redirect()->route('user.dashboard')->with('success', 'Logout successfully');
     }
 

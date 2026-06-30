@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function adminDashboard()
     {
-        $totalUsers      = User::count();
+        $totalUsers = User::where('role', 'user')->count();
         $totalProperties = Property::count();
         $totalBookings   = Booking::count();
         $totalPayments = Payment::count();

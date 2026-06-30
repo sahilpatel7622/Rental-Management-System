@@ -140,7 +140,7 @@
         </div>
 
         <button type="submit" class="btn btn-register w-100">
-            Register
+           Register
         </button>
 
     </form>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 27, 2026 at 07:46 AM
+-- Generation Time: Jun 30, 2026 at 01:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,8 +45,8 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`id`, `user_id`, `property_id`, `check_in`, `check_out`, `total_days`, `total_amount`, `payment_method`, `created_at`, `updated_at`) VALUES
-(20, 6, 9, '2026-06-28', '2026-06-30', 2, 1200.00, 'Cash', '2026-06-26 23:14:02', '2026-06-26 23:14:02'),
-(21, 6, 2, '2026-07-01', '2026-07-15', 14, 11666.67, 'UPI', '2026-06-26 23:14:45', '2026-06-26 23:14:45');
+(25, 6, 2, '2026-07-01', '2026-07-14', 13, 10833.33, 'Cash', '2026-06-30 04:36:51', '2026-06-30 04:36:51'),
+(27, 6, 4, '2026-07-01', '2026-07-02', 1, 333.33, 'UPI', '2026-06-30 04:39:36', '2026-06-30 04:39:36');
 
 -- --------------------------------------------------------
 
@@ -146,7 +146,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2026_06_26_052125_user', 2),
 (5, '2026_06_26_070020_property', 3),
 (6, '2026_06_26_122128_booking', 4),
-(7, '2026_06_27_035326_payment', 5);
+(7, '2026_06_27_035326_payment', 5),
+(8, '2026_06_30_062427_add_reset_columns_to_user_table', 6),
+(9, '2026_06_30_070308_add_reset_columns_to_user_table', 7),
+(10, '2026_06_30_070605_add_reset_columns_to_user_table', 8);
 
 -- --------------------------------------------------------
 
@@ -182,8 +185,8 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`id`, `booking_id`, `user_id`, `amount`, `payment_method`, `payment_status`, `created_at`, `updated_at`) VALUES
-(6, 20, 6, 1200.00, 'Cash', 'pending', '2026-06-26 23:14:02', '2026-06-26 23:14:02'),
-(7, 21, 6, 11666.67, 'UPI', 'success', '2026-06-26 23:14:45', '2026-06-26 23:14:45');
+(11, 25, 6, 10833.33, 'Cash', 'pending', '2026-06-30 04:36:51', '2026-06-30 04:40:49'),
+(13, 27, 6, 333.33, 'UPI', 'success', '2026-06-30 04:39:36', '2026-06-30 04:40:49');
 
 -- --------------------------------------------------------
 
@@ -209,14 +212,14 @@ CREATE TABLE `property` (
 --
 
 INSERT INTO `property` (`id`, `title`, `slug`, `location`, `rent_price`, `image`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(2, 'Luxury 2BHK Room', 'luxury-2bhk-room', 'Ahmedabad', 25000.00, NULL, 'Fully furnished 2BHK room with modular kitchen, balcony, parking, lift and 24x7 security.', 'rented', '2026-06-26 03:32:08', '2026-06-26 23:14:45'),
-(3, 'Deluxe Single Room', 'deluxe-single-room', 'Ahmedabad', 12000.00, NULL, 'Spacious single room with attached bathroom, fan, wardrobe and free WiFi.', 'available', '2026-06-26 03:33:03', '2026-06-26 05:28:48'),
-(4, 'Standard Double Room', 'standard-double-room', 'Surat', 10000.00, NULL, 'Double sharing room with attached bathroom, balcony and parking.', 'available', '2026-06-26 03:33:40', '2026-06-26 23:09:38'),
+(2, 'Luxury 2BHK Room', 'luxury-2bhk-room', 'Ahmedabad', 25000.00, NULL, 'Fully furnished 2BHK room with modular kitchen, balcony, parking, lift and 24x7 security.', 'rented', '2026-06-26 03:32:08', '2026-06-30 04:36:51'),
+(3, 'Deluxe Single Room', 'deluxe-single-room', 'Ahmedabad', 12000.00, NULL, 'Spacious single room with attached bathroom, fan, wardrobe and free WiFi.', 'available', '2026-06-26 03:33:03', '2026-06-30 04:35:32'),
+(4, 'Standard Double Room', 'standard-double-room', 'Surat', 10000.00, NULL, 'Double sharing room with attached bathroom, balcony and parking.', 'rented', '2026-06-26 03:33:40', '2026-06-30 04:39:36'),
 (5, 'Premium AC Room', 'premium-ac-room', 'Vadodara', 16000.00, NULL, 'Fully furnished AC room with TV, WiFi, cupboard and attached bathroom.', 'available', '2026-06-26 03:34:07', '2026-06-26 05:28:25'),
-(6, 'Budget Single Room', 'budget-single-room', 'Rajkot', 9000.00, NULL, 'Affordable single room suitable for students and working professionals.', 'available', '2026-06-26 03:34:33', '2026-06-26 05:28:11'),
+(6, 'Budget Single Room', 'budget-single-room', 'Rajkot', 9000.00, NULL, 'Affordable single room suitable for students and working professionals.', 'available', '2026-06-26 03:34:33', '2026-06-30 04:38:58'),
 (7, 'Family Room', 'family-room', 'Surat', 14000.00, NULL, 'Spacious family room with two beds, attached bathroom and kitchen access.', 'available', '2026-06-26 03:35:08', '2026-06-26 03:35:08'),
 (8, 'Studio Room', 'studio-room', 'Bhavnagar', 16000.00, NULL, 'Fully furnished studio room with kitchenette and attached bathroom.', 'available', '2026-06-26 03:35:33', '2026-06-26 05:27:36'),
-(9, 'Premium Sharing Room', 'premium-sharing-room', 'Ahmedabad', 18000.00, NULL, 'Comfortable sharing room with WiFi, cupboard, study table and parking.', 'rented', '2026-06-26 03:36:04', '2026-06-26 23:14:02');
+(9, 'Premium Sharing Room', 'premium-sharing-room', 'Ahmedabad', 18000.00, NULL, 'Comfortable sharing room with WiFi, cupboard, study table and parking.', 'available', '2026-06-26 03:36:04', '2026-06-30 04:35:24');
 
 -- --------------------------------------------------------
 
@@ -238,10 +241,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('gGn5F8fuCCL4pPLMoeAiq1MovqY6lmFsdaKcS8YV', NULL, '127.0.0.1', 'Symfony', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiYWhyemxzQ3RkN1Nxcm9BVzhGdDdFdk9jVjBTaTJKbGJ2b2dVRFRmVCI7czo3OiJ1c2VyX2lkIjtpOjI7czo5OiJ1c2VyX25hbWUiO3M6NToiU2FoaWwiO3M6MTA6InVzZXJfZW1haWwiO3M6MjU6InNhaGlscGF0ZWw1NTUwMEBnbWFpbC5jb20iO3M6MTA6InVzZXJfcGhvbmUiO3M6MTA6Ijc2MjI5MjA1NTkiO3M6OToidXNlcl9yb2xlIjtzOjU6ImFkbWluIjtzOjc6InN1Y2Nlc3MiO3M6MjU6IkFkbWluIExvZ2luIFN1Y2Nlc3NmdWxseSEiO3M6NjoiX2ZsYXNoIjthOjI6e3M6MzoibmV3IjthOjA6e31zOjM6Im9sZCI7YToxOntpOjA7czo3OiJzdWNjZXNzIjt9fX0=', 1782536162),
-('qc3bvPLi7GKxqcJhS3ZREap5BUdPhXmtJGUJqExq', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0', 'YTo4OntzOjY6Il9mbGFzaCI7YToyOntzOjM6Im5ldyI7YTowOnt9czozOiJvbGQiO2E6MDp7fX1zOjk6Il9wcmV2aW91cyI7YToyOntzOjM6InVybCI7czoyOToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3Byb2ZpbGUiO3M6NToicm91dGUiO3M6MTI6InVzZXIucHJvZmlsZSI7fXM6NjoiX3Rva2VuIjtzOjQwOiJleTFtdXRMWDhNQkk2TFFTa1RMWlNOWWc1eDhsQUI5SGVYZHNUWHA5IjtzOjc6InVzZXJfaWQiO2k6NjtzOjk6InVzZXJfbmFtZSI7czo1OiJTYWhpbCI7czoxMDoidXNlcl9lbWFpbCI7czoxNToic2FoaWxAZ21haWwuY29tIjtzOjEwOiJ1c2VyX3Bob25lIjtzOjEwOiI2MzU5OTUwODI5IjtzOjk6InVzZXJfcm9sZSI7czo0OiJ1c2VyIjt9', 1782537858),
-('v20OI1bBR9JgdyYlqqt3fTGzie92LoIwjC3siJuX', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0', 'YTo4OntzOjY6Il9mbGFzaCI7YToyOntzOjM6Im5ldyI7YTowOnt9czozOiJvbGQiO2E6MDp7fX1zOjk6Il9wcmV2aW91cyI7YToyOntzOjM6InVybCI7czozMzoiaHR0cDovL2xvY2FsaG9zdDo4MDAwL2FkbWluL3VzZXJzIjtzOjU6InJvdXRlIjtzOjExOiJhZG1pbi51c2VycyI7fXM6NjoiX3Rva2VuIjtzOjQwOiJnZTFWb3VNY1Q1UUlSdkhoWnQ0QTM0ckJXMVpBd2RrT0owQWpQbUZlIjtzOjc6InVzZXJfaWQiO2k6MjtzOjk6InVzZXJfbmFtZSI7czo1OiJTYWhpbCI7czoxMDoidXNlcl9lbWFpbCI7czoyNToic2FoaWxwYXRlbDU1NTAwQGdtYWlsLmNvbSI7czoxMDoidXNlcl9waG9uZSI7czoxMDoiNzYyMjkyMDU1OSI7czo5OiJ1c2VyX3JvbGUiO3M6NToiYWRtaW4iO30=', 1782539115),
-('YgoVx1dKoqceCwCeq4DuXyKLvLcUmIIzan3GcWhE', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0', 'YTo4OntzOjY6Il9mbGFzaCI7YToyOntzOjM6Im5ldyI7YTowOnt9czozOiJvbGQiO2E6MDp7fX1zOjk6Il9wcmV2aW91cyI7YToyOntzOjM6InVybCI7czozMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2Rhc2hib2FyZCI7czo1OiJyb3V0ZSI7czoxNDoidXNlci5kYXNoYm9hcmQiO31zOjY6Il90b2tlbiI7czo0MDoiMEpHcG96Q2pWTE9Ud0VaVDFqNWFKb0JsSmlDMkFoVEdmVjZCN3BVOSI7czo3OiJ1c2VyX2lkIjtpOjY7czo5OiJ1c2VyX25hbWUiO3M6NToiU2FoaWwiO3M6MTA6InVzZXJfZW1haWwiO3M6MTU6InNhaGlsQGdtYWlsLmNvbSI7czoxMDoidXNlcl9waG9uZSI7czoxMDoiNjM1OTk1MDgyOSI7czo5OiJ1c2VyX3JvbGUiO3M6NDoidXNlciI7fQ==', 1782539170);
+('DyCOeJlX7PPzoIxc3GTjeyqFFDiCKLVEv1HRhkmL', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0', 'YTo4OntzOjY6Il9mbGFzaCI7YToyOntzOjM6Im5ldyI7YTowOnt9czozOiJvbGQiO2E6MDp7fX1zOjk6Il9wcmV2aW91cyI7YToyOntzOjM6InVybCI7czozNjoiaHR0cDovL2xvY2FsaG9zdDo4MDAwL2FkbWluL3Byb3BlcnR5IjtzOjU6InJvdXRlIjtzOjE0OiJhZG1pbi5wcm9wZXJ0eSI7fXM6NjoiX3Rva2VuIjtzOjQwOiJGRzRiY1BBcktIcllrcTdvU0U0QXJlUWg0eE5ZSEFzakVGZ3BVMUh2IjtzOjc6InVzZXJfaWQiO2k6MjtzOjk6InVzZXJfbmFtZSI7czo1OiJTYWhpbCI7czoxMDoidXNlcl9lbWFpbCI7czoxNToic2FoaWxAZ21haWwuY29tIjtzOjEwOiJ1c2VyX3Bob25lIjtzOjEwOiI3NjIyOTIwNTU4IjtzOjk6InVzZXJfcm9sZSI7czo1OiJhZG1pbiI7fQ==', 1782814312),
+('P1RtQEbMHGflGkZY2wHF1YCVj3bGw3hjTzqwhtBT', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0', 'YTo4OntzOjY6Il9mbGFzaCI7YToyOntzOjM6Im5ldyI7YTowOnt9czozOiJvbGQiO2E6MDp7fX1zOjk6Il9wcmV2aW91cyI7YToyOntzOjM6InVybCI7czozMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2Rhc2hib2FyZCI7czo1OiJyb3V0ZSI7czoxNDoidXNlci5kYXNoYm9hcmQiO31zOjY6Il90b2tlbiI7czo0MDoiM3h0aHd2VU9WYjQzODRoNXR4dHF4ODF1VjJNUlFNZlh2UXUxRGJFdSI7czo3OiJ1c2VyX2lkIjtpOjY7czo5OiJ1c2VyX25hbWUiO3M6NToiU2FoaWwiO3M6MTA6InVzZXJfZW1haWwiO3M6MjU6InNhaGlscGF0ZWw1NTUwMEBnbWFpbC5jb20iO3M6MTA6InVzZXJfcGhvbmUiO3M6MTA6IjYzNTk5NTA4MjkiO3M6OToidXNlcl9yb2xlIjtzOjQ6InVzZXIiO30=', 1782818026);
 
 -- --------------------------------------------------------
 
@@ -255,6 +256,8 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
+  `reset_otp` varchar(255) DEFAULT NULL,
+  `reset_otp_expiry` timestamp NULL DEFAULT NULL,
   `role` enum('admin','user') NOT NULL DEFAULT 'user',
   `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `remember_token` varchar(100) DEFAULT NULL,
@@ -266,10 +269,10 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `phone`, `password`, `role`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Sahil', 'sahilpatel55500@gmail.com', '7622920559', '123456', 'admin', 'active', NULL, NULL, NULL),
-(6, 'Sahil', 'sahil@gmail.com', '6359950829', '$2y$12$c76wo/US0FS4yyyXOf7QaeMmrRzefhWsBmceGhGic9jAz4BdctyBe', 'user', 'active', NULL, '2026-06-26 01:05:52', '2026-06-27 00:15:10'),
-(8, 'Dhruvi', 'dhruvi@gmail.com', '9586325698', '$2y$12$lq7823caZLej1t0ff/R1n.rW3xi33GhHiy/.Qmj7gNZlVhndKKP6C', 'user', 'active', NULL, '2026-06-26 01:08:53', '2026-06-26 01:08:53');
+INSERT INTO `user` (`id`, `name`, `email`, `phone`, `password`, `reset_otp`, `reset_otp_expiry`, `role`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
+(2, 'Sahil', 'sahil@gmail.com', '7622920558', '123456', NULL, NULL, 'admin', 'active', NULL, NULL, NULL),
+(6, 'Sahil', 'sahilpatel55500@gmail.com', '6359950829', '$2y$12$NEtzZ.e6DFwtL1AKBjBafu9ZeBTombTmiA2KH6wOawErMkuDVzBz6', NULL, NULL, 'user', 'active', NULL, '2026-06-26 01:05:52', '2026-06-30 05:17:56'),
+(8, 'Dhruvi', 'dhruvi@gmail.com', '9586325698', '$2y$12$lq7823caZLej1t0ff/R1n.rW3xi33GhHiy/.Qmj7gNZlVhndKKP6C', NULL, NULL, 'user', 'active', NULL, '2026-06-26 01:08:53', '2026-06-26 01:08:53');
 
 --
 -- Indexes for dumped tables
@@ -365,7 +368,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -383,13 +386,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `property`
@@ -401,7 +404,7 @@ ALTER TABLE `property`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

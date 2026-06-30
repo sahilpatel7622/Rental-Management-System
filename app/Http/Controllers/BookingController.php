@@ -7,6 +7,8 @@ use App\Models\Property;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -60,6 +62,33 @@ class BookingController extends Controller
         $room->status = 'Rented';
         $room->save();
 
+        // Order Confirm
+        $user = User::find($userId);
+        if ($user && $user->email) {
+            Mail::html("
+                <div style='font-family:Arial,sans-serif; padding:20px;'>
+                    <h2 style='color:#4f46e5;'>Booking Confirmed</h2>
+
+                    <p>Hello <strong>{$user->name}</strong>,</p>
+
+                    <p>Your room booking has been confirmed successfully.</p>
+
+                    <p><strong>Room:</strong> {$room->title}</p>
+                    <p><strong>Check-in:</strong> {$booking->check_in}</p>
+                    <p><strong>Check-out:</strong> {$booking->check_out}</p>
+                    <p><strong>Total Days:</strong> {$booking->total_days}</p>
+                    <p><strong>Amount:</strong> ₹" . number_format($booking->total_amount, 2) . "</p>
+                    <p><strong>Payment Method:</strong> {$booking->payment_method}</p>
+                    <p><strong>Payment Status:</strong> " . ucfirst($status) . "</p>
+                    <br>
+                    <p>Thank you,<br><strong>Rental Management Team</strong></p>
+                </div>
+            ", function ($message) use ($user) {
+                $message->to($user->email)
+                        ->subject('Booking Confirmati   on');
+            });
+        }
+
         return redirect('/dashboard')
             ->with('success', 'Room booked successfully.');
     }
@@ -82,7 +111,5 @@ class BookingController extends Controller
                     ->get();
         return view('admin.bookings', compact('bookings'));
     }
-
-
 
 }
