@@ -33,25 +33,24 @@ class UserController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-            'role' => 'user',
-            'status' => 'active',
-        
-            // 'otp_sent' => true
+        session([
+            'register_data' => [
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => $request->password,
+            ],
+            'otp_sent' => true
         ]);
 
-        // $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
-        // $twilio->verify->v2
-        //     ->services(env('TWILIO_VERIFY_SID'))
-        //     ->verifications
-        //     ->create('+91'.$request->phone, 'sms');
+        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $twilio->verify->v2
+            ->services(env('TWILIO_VERIFY_SID'))
+            ->verifications
+            ->create('+91'.$request->phone, 'sms');
 
-        return redirect()->route('login')
-            ->with('success', 'Register Comeplete Successfully!.');
+        return redirect()->route('otp.form')
+            ->with('success', 'OTP sent successfully.');
 
     }
 
@@ -60,45 +59,45 @@ class UserController extends Controller
         return view('user.otp');
     }
 
-    // public function verifyOtp(Request $request)
-    // {
-    //     $request->validate([
-    //         'otp' => 'required|digits:6',
-    //     ]);
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|digits:6',
+        ]);
 
-    //     $data = session('register_data');
-    //     if (!$data) {
-    //         return redirect()->route('register')
-    //             ->with('error', 'Session expired. Please register again.');
-    //     }
+        $data = session('register_data');
+        if (!$data) {
+            return redirect()->route('register')
+                ->with('error', 'Session expired. Please register again.');
+        }
 
-    //     $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
-    //     $result = $twilio->verify->v2
-    //         ->services(env('TWILIO_VERIFY_SID'))
-    //         ->verificationChecks
-    //         ->create([
-    //             'to' => '+91'.$data['phone'],
-    //             'code' => $request->otp,
-    //         ]);
+        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $result = $twilio->verify->v2
+            ->services(env('TWILIO_VERIFY_SID'))
+            ->verificationChecks
+            ->create([
+                'to' => '+91'.$data['phone'],
+                'code' => $request->otp,
+            ]);
 
-    //     if ($result->status == 'approved') {
-    //         User::create([
-    //             'name' => $data['name'],
-    //             'email' => $data['email'],
-    //             'phone' => $data['phone'],
-    //             'password' => Hash::make($data['password']),
-    //             'role' => 'user',
-    //             'status' => 'active',
-    //         ]);
+        if ($result->status == 'approved') {
+            User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'password' => Hash::make($data['password']),
+                'role' => 'user',
+                'status' => 'active',
+            ]);
 
-    //         session()->forget('register_data');
+            session()->forget('register_data');
 
-    //         return redirect()->route('login')
-    //             ->with('success', 'Registration completed successfully.');
-    //     }
+            return redirect()->route('login')
+                ->with('success', 'Registration completed successfully.');
+        }
 
-    //     return back()->with('error', 'Invalid OTP.');
-    // }
+        return back()->with('error', 'Invalid OTP.');
+    }
 
     public function loginStore(Request $request)
     {
